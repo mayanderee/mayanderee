@@ -29,4 +29,23 @@ VALUES
 ('2025-04-03', 'Nightstand', 200.00, 'Debit Card', 'Tina Evans', 'Cape Town', 'Western Cape', 'South Africa', '2024-09-30', '2025-03-16'),
 ('2025-04-04', 'Wall Unit', 400.00, 'Credit Card', 'Victor Martinez', 'Mexico City', 'Mexico City', 'Mexico', '2024-11-11', '2025-03-20');
 
-SELECT * FROM furniture_sales;
+SELECT * FROM furniture_sales WHERE price <= 200 AND payment_type = 'Credit Card'; /*filter by price and payment_type*/
+
+/*Calculate average,min,max of the furniture price*/
+SELECT product,AVG(price) AS AVG_Price FROM furniture_sales GROUP BY payment_type HAVING AVG_Price > 200;
+SELECT product,MAX(price) AS MAX_Price FROM furniture_sales;
+SELECT product,MIN(price) AS MIN_Price FROM
+furniture_sales;
+
+/*The use of CASE to group data values that don't yet exist*/
+SELECT COUNT(*) AS furniture_count,
+    CASE
+        WHEN price > 200 THEN 'Heavy Furniture'
+        WHEN price <= 200 THEN 'Light Furniture'
+    END AS furniture_category
+FROM 
+    furniture_sales
+GROUP BY 
+    furniture_category
+ORDER BY
+    furniture_category;
